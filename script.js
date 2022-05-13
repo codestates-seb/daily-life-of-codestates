@@ -1,4 +1,4 @@
-let intervalID = 0;
+const intervalID = [];
 
 const showAction = (idx) => {
   const imgs = document.querySelectorAll(".imgs__container img");
@@ -15,9 +15,10 @@ const showAction = (idx) => {
 
 const repeatAction = (idx) => {
   let intervalIdx = idx;
-  intervalID = setInterval(() => {
+  let id;
+  id = setInterval(() => {
     if (intervalIdx === idx - 1) {
-      clearInterval(intervalID);
+      clearInterval(id);
     }
     if (intervalIdx >= idx) {
       intervalIdx = 0;
@@ -26,7 +27,12 @@ const repeatAction = (idx) => {
     }
     showAction(intervalIdx);
   }, 300);
+  intervalID.push(id);
 };
+
+const stopInterval = (id) => {
+  clearInterval(id);
+}
 
 const actions = document.querySelectorAll(".actions__container > button");
 
@@ -35,7 +41,7 @@ for (let i = 0; i < actions.length; i += 1) {
     if (i === 3) {
       repeatAction(i);
     } else {
-      clearInterval(intervalID);
+      intervalID.forEach(id => clearInterval(id));
       showAction(i);
     }
   });
